@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
+import axios from 'axios'
 
 const columns = [
   { field: 'id', headerName: 'ID' },
@@ -12,11 +13,13 @@ const App = () => {
   const [tableData, setTableData] = useState([])
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/posts")
-      .then((data) => data.json())
-      .then((data) => setTableData(data))
-
-  }, [])
+    axios
+      .get("https://jsonplaceholder.typicode.com/posts")
+      .then((response) => setTableData(response.data))
+      .catch((err) => {
+        console.error("ops! ocorreu um erro" + err);
+      });
+  }, []);
 
   console.log(tableData)
 
